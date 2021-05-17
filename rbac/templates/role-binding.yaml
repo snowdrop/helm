@@ -1,0 +1,19 @@
+{{- if not .Release.Namespace }}
+  {{- fail "the value 'namespace' is required" }}
+{{- end }}
+{{- if .Values.roleBinding.create -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "rbac.roleBindingName" . }}
+  labels:
+  {{- include "rbac.labels" . | nindent 4 }}
+roleRef:
+  {{- with .Values.roleBinding.roleRef }}
+  kind: Role
+  apiGroup: rbac.authorization.k8s.io
+  name: {{ .name }}
+  {{- end }}
+subjects:
+  {{- with .Values.roleBinding.subjects }}{{- tpl (toYaml . ) $ | nindent 2 }}{{- end }}
+{{- end }}

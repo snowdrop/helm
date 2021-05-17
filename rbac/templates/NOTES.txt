@@ -1,0 +1,11 @@
+################
+# RBAC created #
+################
+
+{{ if .Values.clusterRole.create }}ClusterRole: {{ .Values.clusterRole.name }}{{ end }}
+{{ if .Values.clusterRoleBinding.create }}ClusterRoleBinding: {{ .Values.clusterRoleBinding.name }}{{ end }}
+with the subjects:
+{{ with .Values.clusterRoleBinding.subjects }}{{ . | toYaml  }}{{ end }}
+
+and permissions:
+{{ with .Values.clusterRole.rules }}{{ . | toYaml  }}{{ end }}

@@ -1,0 +1,60 @@
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: jenkins-jnlp
+
+clusterRole:
+  create: true
+  name: jenkins-jnlp-read-nodes
+  rules:
+    - apiGroups: [""]
+      resources: ["nodes"]
+      verbs: ["get", "list"]
+    - apiGroups: ["","image.openshift.io"]
+      resources: ["imagestreams"]
+      verbs: ["create"]
+
+clusterRoleBinding:
+  create: true
+  name: jenkins-jnlp
+  roleRef:
+    name: jenkins-jnlp-read-nodes
+  subjects:
+    - kind: ServiceAccount
+      name: jenkinsci
+      namespace: "{{ .Release.Namespace }}"
+    - kind: ServiceAccount
+      name: jenkins-jnlp
+      namespace: "{{ .Release.Namespace }}"
+
+role:
+  # Specifies whether a role should be created
+  create: false
+  name: jenkins-jnlp-role
+  rules:
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list"]
+  - apiGroups: ["","image.openshift.io"]
+    resources: ["imagestreams"]
+    verbs: ["create"]
+
+roleBinding:
+  # Specifies whether a role should be created
+  create: false
+  name: "" # jenkins-jnlp-rolebinding
+  roleRef:
+    name: jenkins-jnlp-role
+  subjects:
+  - kind: ServiceAccount
+    name: jenkinsci
+    namespace: "{{ .Release.Namespace }}"
+  - kind: ServiceAccount
+    name: jenkins-jnlp
+    namespace: "{{ .Release.Namespace }}"
