@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ .Values.name }}
+    provider: {{ .Values.provider }}
+    app.openshift.io/runtime: rh-spring-boot
+  annotations:
+    app.kubernetes.io/vcs-uri: {{ .Values.s2i.source.repo }}
+  name: {{ .Values.name }}
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+  selector:
+    app: {{ .Values.name }}
+    provider: {{ .Values.provider }}
+  type: ClusterIP

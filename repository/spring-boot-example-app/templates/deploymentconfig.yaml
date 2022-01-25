@@ -1,0 +1,65 @@
+---
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: {{ .Values.name }}
+    provider: {{ .Values.provider }}
+    app.openshift.io/runtime: rh-spring-boot
+  annotations:
+    app.kubernetes.io/vcs-uri: {{ .Values.s2i.source.repo }}
+  name: {{ .Values.name }}
+spec:
+  replicas: 1
+  selector:
+    app: {{ .Values.name }}
+    provider: {{ .Values.provider }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+        provider: {{ .Values.provider }}
+        app.openshift.io/runtime: rh-spring-boot
+      annotations:
+        app.kubernetes.io/vcs-uri: {{ .Values.s2i.source.repo }}
+    spec:
+      containers:
+        - env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /actuator/info
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: {{ .Values.name }}
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /actuator/health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 10
+  triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - {{ .Values.name }}
+        from:
+          kind: ImageStreamTag
+          name: "{{ .Values.name }}:{{ .Values.version }}"
+      type: ImageChange

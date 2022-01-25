@@ -1,0 +1,27 @@
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: {{ .Values.name }}
+  labels:
+    app.openshift.io/runtime: rh-spring-boot
+  annotations:
+    app.kubernetes.io/vcs-uri: {{ .Values.s2i.source.repo }}
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: "{{ .Values.name }}:{{ .Values.version }}"
+  source:
+    git:
+      uri: {{ .Values.s2i.source.repo }}
+      ref: {{ .Values.s2i.source.ref }}
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: "base-image:{{ .Values.s2i.builderImage.tag }}"
+  triggers:
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange

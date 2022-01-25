@@ -1,0 +1,12 @@
+apiVersion: v1
+entries:
+  spring-boot-example-app:
+  - apiVersion: v1
+    created: "2022-01-25T11:26:05.382316477+01:00"
+    description: Spring Boot Example application
+    digest: ce84140ae50b819d9fad9dea6271f91902346d13608f966afe8134aee95160aa
+    name: spring-boot-example-app
+    urls:
+    - http://snowdrop.github.io/helm/charts/spring-boot-example-app-0.0.1.tgz
+    version: 0.0.1
+generated: "2022-01-25T11:26:05.381958999+01:00"

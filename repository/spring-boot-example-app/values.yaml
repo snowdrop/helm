@@ -1,0 +1,18 @@
+# Application name. Example: rest-http
+name: 
+# Application version. Example: 2.4.9-14-SNAPSHOT
+version: 
+# Application provider.
+provider: snowdrop
+# S2i configuration
+s2i:
+  # Git source repository
+  source: 
+    repo: 
+    ref: 
+  # Builder Image
+  builderImage: 
+    # Repository Url
+    repo: registry.access.redhat.com/ubi8/openjdk-8
+    # Builder Image tag
+    tag: 1.3
