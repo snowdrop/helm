@@ -21,7 +21,7 @@ This project aims to :
 The repository uses GitHub Pages to expose the Helm charts at (http://snowdrop.github.io/helm)[http://snowdrop.github.io/helm]. To use it, you need to execute:
 
 ```console
-$ helm repo add snowdrop http://snowdrop.github.io/helm
+$ helm repo add snowdrop https://snowdrop.github.io/helm
 ```
 
 And confirm that the snowdrop repository is listed:
@@ -29,7 +29,7 @@ And confirm that the snowdrop repository is listed:
 ```console
 $ helm repo list
 NAME           	URL                               
-snowdrop	    http://snowdrop.github.io/helm
+snowdrop	    https://snowdrop.github.io/helm
 ```
 
 ## Available Charts in Repository
@@ -40,13 +40,12 @@ snowdrop	    http://snowdrop.github.io/helm
 
 ## Usage
 
-To use one of the available charts, for example `spring-boot-example-app`, you first need to generate your chart:
+To use one of the available charts, part of the snowdrop repository such as `spring-boot-example-app`, you first need to generate a chart directory using the following command:
 
 ```console
 $ helm create rest-http
 ```
-
-The `create` command will generate the following file structure:
+This command will generate the following directory structure using th Helm starter template:
 
 ```
 rest-http
@@ -58,7 +57,8 @@ rest-http
 │   │   ...
 ```
 
-Now, you need to add the `rest-http/requirements.yaml` file to register the dependency:
+To update the created project using the Helm resource defined the example, we will then create the [dependencies file](https://v2.helm.sh/docs/charts/#chart-dependencies) under the root path of the project `rest-http/requirements.yaml`.
+Next, edit the file to specify the dependency to be used
 
 ```yaml
 dependencies:
@@ -67,7 +67,7 @@ dependencies:
     repository: http://snowdrop.github.io/helm
 ```
 
-Now, download the dependencies using: 
+When done, execute this command to download the dependency: 
 ```console
 $ helm dependency update
 ```
@@ -91,8 +91,8 @@ $ helm install rest-http .
 
 ## Development
 
-To add a new chart in the repository, you need to follow the following steps:
-1. Add the new chart under `repository/<new chart name>`
+To add a new chart to the repository, follow these steps:
+1. Add the new chart folder under `repository/<new chart name>`
 2. Update the [Makefile](Makefile) file to add the new repository name in the `CHARTS` array
 3. Run `make release` from the root repository folder
 
