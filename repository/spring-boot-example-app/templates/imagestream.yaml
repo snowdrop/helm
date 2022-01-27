@@ -1,0 +1,13 @@
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: base-image
+spec:
+  dockerImageRepository: {{ .Values.s2i.builderImage.repo }}
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: {{ .Values.name }}
+spec: {}
