@@ -16,7 +16,7 @@ This repository contains Helm templates and charts used by other applications pa
 
 # Repository
 
-The repository has been configured to serve the static helm index and chart files. To use it:
+The repository uses GitHub Pages to expose the Helm charts at (http://snowdrop.github.io/helm)[http://snowdrop.github.io/helm]. To use it, you need to execute:
 
 ```console
 $ helm repo add snowdrop http://snowdrop.github.io/helm
@@ -38,7 +38,25 @@ snowdrop	    http://snowdrop.github.io/helm
 
 ## Usage
 
-To use one of the available charts, for example `spring-boot-example-template`, update or add the `requirements.yaml` file to register the dependency:
+To use one of the available charts, for example `spring-boot-example-app`, you first need to generate your chart:
+
+```console
+$ helm create rest-http
+```
+
+The `create` command will generate the following file structure:
+
+```
+rest-http
+│   Chart.yaml
+│   values.yaml
+|
+└───charts
+└───templates
+│   │   ...
+```
+
+Now, you need to add the `rest-http/requirements.yaml` file to register the dependency:
 
 ```yaml
 dependencies:
@@ -78,7 +96,7 @@ To add a new chart in the repository, you need to follow the following steps:
 
 ## Testing
 
-1. Expose the repository locally using Docker and chartmuseum:
+1. Expose the repository locally using Docker and [ChartMuseum](https://chartmuseum.com/) (utility to serve Helm repositories locally):
 
 ```console
 docker run --rm -u 0 -it -d -p 8080:8080 -e DEBUG=1 -e STORAGE=local -e STORAGE_LOCAL_ROOTDIR=/charts -v $(pwd)/charts:/charts chartmuseum/chartmuseum:latest
@@ -87,7 +105,7 @@ docker run --rm -u 0 -it -d -p 8080:8080 -e DEBUG=1 -e STORAGE=local -e STORAGE_
 The helm repository should be now available at `http://localhost:8080`.
 
 2. Add the local repository using `helm repo add local http://localhost:8080`. Verify that the local chart is in the local repository `helm search repo local`.
-3. Finally, update the `requirements.yaml` file to register the dependency:
+3. Finally, update the `rest-http/requirements.yaml` file to register the dependency:
 
 ```yaml
 dependencies:
