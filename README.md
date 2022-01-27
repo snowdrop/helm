@@ -12,7 +12,9 @@ Table of Contents
 
 # Introduction
 
-This repository contains best practices to design Helm charts from templates (eg. [RBAC](#rbac), ...) and serves as Helm index repository at (http://snowdrop.github.io/helm)[http://snowdrop.github.io/helm/index.yaml]
+This project aims to :
+- Host the [Helm index repository](http://snowdrop.github.io/helm/index.yaml) of our Spring Boot examples and their released `chart.tgz` files,
+- Propose `best practices` to design charts and resolve problems such as: How to deal with [RBAC](#rbac).
 
 # Repository
 
