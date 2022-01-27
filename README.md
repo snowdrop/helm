@@ -12,7 +12,7 @@ Table of Contents
 
 # Introduction
 
-This repository contains Helm templates and charts used by other applications part of the Snowdrop team.
+This repository contains best practices to design Helm charts from templates (eg. [RBAC](#rbac), ...) and serves as Helm index repository at (http://snowdrop.github.io/helm)[http://snowdrop.github.io/helm/index.yaml]
 
 # Repository
 
