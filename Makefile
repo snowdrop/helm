@@ -13,5 +13,5 @@ release:
 	done
 
 	cd $(DESTINATION_FOLDER)
-	helm repo index --url http://snowdrop.github.io/helm --merge index.yaml .
+	helm repo index --url https://snowdrop.github.io/helm --merge index.yaml .
 	cd ..
