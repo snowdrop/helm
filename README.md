@@ -57,10 +57,14 @@ rest-http
 │   │   ...
 ```
 
-To update the created project using the Helm resource defined the example, we will then create the [dependencies file](https://v2.helm.sh/docs/charts/#chart-dependencies) under the root path of the project `rest-http/requirements.yaml`.
+To update the created project using the Helm resource defined the example, we will then add the [chart dependencies](https://helm.sh/docs/topics/charts/#chart-dependencies) in `rest-http/Chart.yaml`.
 Next, edit the file to specify the dependency to be used
 
 ```yaml
+apiVersion: v2
+name: rest-http
+description: A Helm chart for Kubernetes
+# Chart dependencies:
 dependencies:
   - name: spring-boot-example-app
     version: 0.0.1
@@ -107,9 +111,13 @@ docker run --rm -u 0 -it -d -p 8080:8080 -e DEBUG=1 -e STORAGE=local -e STORAGE_
 The helm repository should be now available at `http://localhost:8080`.
 
 2. Add the local repository using `helm repo add local http://localhost:8080`. Verify that the local chart is in the local repository `helm search repo local`.
-3. Finally, update the `rest-http/requirements.yaml` file to register the dependency:
+3. Finally, update the `rest-http/Chart.yaml` file to register the dependency:
 
 ```yaml
+apiVersion: v2
+name: rest-http
+description: A Helm chart for Kubernetes
+# Chart dependencies:
 dependencies:
   - name: spring-boot-example-app
     version: 0.0.1
