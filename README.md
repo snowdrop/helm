@@ -76,10 +76,10 @@ When done, execute this command to download the dependency:
 $ helm dependency update
 ```
 
-Configure the template accordingly using the chart name as root element:
+Edit the `rest-http/values.yaml` file to configure the dependency `spring-boot-example-app`:
 
 ```yaml
-spring-boot-example-app: # This is the chart name from the dependencies!
+spring-boot-example-app:
   name: rest-http
   version: 2.5.0-0-SNAPSHOT
   s2i:
