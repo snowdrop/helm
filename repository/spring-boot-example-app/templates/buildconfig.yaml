@@ -24,6 +24,7 @@ spec:
       from:
         kind: ImageStreamTag
         name: "builder-{{ .Values.name }}:{{ .Values.s2i.builderImage.tag }}"
+      incremental: true
       env:
       {{- if .Values.s2i.env }}
 {{ toYaml .Values.s2i.env | indent 6 }}
