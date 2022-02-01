@@ -2,15 +2,15 @@ apiVersion: v1
 entries:
   spring-boot-example-app:
   - apiVersion: v1
-    created: "2022-02-01T13:27:32.388518264+01:00"
+    created: "2022-02-01T15:10:21.406852613+01:00"
     description: Spring Boot Example application
-    digest: 61cb9575b5c06c8ae08d0887de728920b096e51643a97e9e2402068cca044e6d
+    digest: d0c1579bd5892c4c7816d10fc38659bd6c874e34bf4075356012b23a6d920233
     name: spring-boot-example-app
     urls:
     - https://snowdrop.github.io/helm/charts/spring-boot-example-app-0.0.3.tgz
     version: 0.0.3
   - apiVersion: v1
-    created: "2022-02-01T13:27:32.388305402+01:00"
+    created: "2022-02-01T15:10:21.406642978+01:00"
     description: Spring Boot Example application
     digest: f01e1df9eb305fbc1c0d1c01ce08879f54070909ec57b99333398e3214675c38
     name: spring-boot-example-app
@@ -18,11 +18,11 @@ entries:
     - https://snowdrop.github.io/helm/charts/spring-boot-example-app-0.0.2.tgz
     version: 0.0.2
   - apiVersion: v1
-    created: "2022-02-01T13:27:32.388069634+01:00"
+    created: "2022-02-01T15:10:21.406438972+01:00"
     description: Spring Boot Example application
     digest: ce84140ae50b819d9fad9dea6271f91902346d13608f966afe8134aee95160aa
     name: spring-boot-example-app
     urls:
     - https://snowdrop.github.io/helm/charts/spring-boot-example-app-0.0.1.tgz
     version: 0.0.1
-generated: "2022-02-01T13:27:32.387704818+01:00"
+generated: "2022-02-01T15:10:21.406076562+01:00"
