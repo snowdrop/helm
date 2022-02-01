@@ -2,7 +2,7 @@
 apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
-  name: base-image
+  name: "builder-{{ .Values.name }}"
 spec:
   dockerImageRepository: {{ .Values.s2i.builderImage.repo }}
 ---
