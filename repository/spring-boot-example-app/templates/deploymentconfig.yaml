@@ -29,6 +29,9 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+        {{- if .Values.env }}
+{{ toYaml .Values.env | indent 12 }}
+        {{- end }}
           livenessProbe:
             failureThreshold: 3
             httpGet:
