@@ -43,22 +43,28 @@ snowdrop	    https://snowdrop.github.io/helm
 To use one of the available charts, part of the snowdrop repository such as `spring-boot-example-app`, you first need to generate a chart directory using the following command:
 
 ```console
-$ helm create rest-http
+$ mkdir rest-http
 ```
-This command will generate the following directory structure using th Helm starter template:
+
+Now, let's create the `Chart.yaml` file under the `rest-http/` folder with your Chart information:
+
+```yaml
+apiVersion: v2
+name: rest-http
+description: A Helm chart for Kubernetes
+```
+
+And let's also create the `values.yaml` file under the `rest-http/` folder and keep it empty for now.
+
+At this point, your chart directory `rest-http` should have the following structure:
 
 ```
 rest-http
 │   Chart.yaml
 │   values.yaml
-|
-└───charts
-└───templates
-│   │   ...
 ```
 
-To update the created project using the Helm resource defined the example, we will then add the [chart dependencies](https://helm.sh/docs/topics/charts/#chart-dependencies) in `rest-http/Chart.yaml`.
-Next, edit the file to specify the dependency to be used
+Next, to use the `spring-boot-example-app` dependency, we need to append the [dependencies](https://helm.sh/docs/topics/charts/#chart-dependencies) section within the `rest-http/Chart.yaml` file:
 
 ```yaml
 apiVersion: v2
@@ -76,7 +82,7 @@ When done, execute this command to download the dependency:
 $ helm dependency update
 ```
 
-Edit the `rest-http/values.yaml` file to configure the dependency `spring-boot-example-app`:
+Next, edit the `rest-http/values.yaml` file to configure the dependency to be used such as `spring-boot-example-app`:
 
 ```yaml
 spring-boot-example-app:
