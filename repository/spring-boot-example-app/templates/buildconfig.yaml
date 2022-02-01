@@ -16,11 +16,18 @@ spec:
     git:
       uri: {{ .Values.s2i.source.repo }}
       ref: {{ .Values.s2i.source.ref }}
+    {{- if .Values.s2i.source.contextDir }}
+    contextDir: {{ .Values.s2i.source.contextDir }}
+    {{- end }}
   strategy:
     sourceStrategy:
       from:
         kind: ImageStreamTag
-        name: "base-image:{{ .Values.s2i.builderImage.tag }}"
+        name: "builder-{{ .Values.name }}:{{ .Values.s2i.builderImage.tag }}"
+      env:
+      {{- if .Values.s2i.env }}
+{{ toYaml .Values.s2i.env | indent 6 }}
+      {{- end }}
   triggers:
     - type: ConfigChange
     - imageChange: {}
