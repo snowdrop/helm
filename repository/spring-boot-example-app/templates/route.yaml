@@ -1,4 +1,4 @@
----
+{{- if .Values.expose }}
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
@@ -12,7 +12,8 @@ metadata:
 spec:
   path: /
   port:
-    targetPort: 8080
+    targetPort: {{ .Values.port }}
   to:
     kind: Service
     name: {{ .Values.name }}
+{{- end }}

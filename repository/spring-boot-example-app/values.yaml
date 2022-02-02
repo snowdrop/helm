@@ -4,6 +4,15 @@ name:
 version: 
 # Application provider.
 provider: snowdrop
+# Default port
+port: 8080
+# Expose route
+expose: true
+# Health configuration
+health:
+  enabled: true
+  livenessProbe: /actuator/health/liveness
+  readinessProbe: /actuator/health/readiness
 # S2i configuration
 s2i:
   # Git source repository
