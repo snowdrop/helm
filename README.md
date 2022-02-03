@@ -18,7 +18,7 @@ This project aims to :
 
 # Repository
 
-The repository uses GitHub Pages to expose the Helm charts at (http://snowdrop.github.io/helm)[http://snowdrop.github.io/helm]. To use it, you need to execute:
+The repository uses GitHub Pages to expose the Helm charts at [http://snowdrop.github.io/helm](http://snowdrop.github.io/helm). To use it, you need to execute:
 
 ```console
 $ helm repo add snowdrop https://snowdrop.github.io/helm
@@ -40,21 +40,30 @@ snowdrop	    https://snowdrop.github.io/helm
 
 ## Usage
 
-To use one of the available charts, part of the snowdrop repository such as `spring-boot-example-app`, you first need to generate a chart directory using the following command:
+To use one of the available charts, part of the snowdrop repository such as `spring-boot-example-app`, you first need to generate a chart directory in repository folder using the following command:
 
 ```console
+$ cd repository
 $ mkdir rest-http
 ```
 
 Now, let's create the `Chart.yaml` file under the `rest-http/` folder with your Chart information:
 
 ```yaml
+echo "
 apiVersion: v2
 name: rest-http
 description: A Helm chart for Kubernetes
+version: 0.0.1
+" > rest-http/Chart.yaml
+
 ```
 
 And let's also create the `values.yaml` file under the `rest-http/` folder and keep it empty for now.
+
+```console
+$ touch rest-http/values.yaml
+```
 
 At this point, your chart directory `rest-http` should have the following structure:
 
@@ -70,6 +79,7 @@ Next, to use the `spring-boot-example-app` dependency, we need to append the [de
 apiVersion: v2
 name: rest-http
 description: A Helm chart for Kubernetes
+version: 0.0.1
 # Chart dependencies:
 dependencies:
   - name: spring-boot-example-app
@@ -79,6 +89,7 @@ dependencies:
 
 When done, execute this command to download the dependency: 
 ```console
+$ cd rest-http
 $ helm dependency update
 ```
 
@@ -113,6 +124,8 @@ To add a new chart to the repository, follow these steps:
 ```console
 docker run --rm -u 0 -it -d -p 8080:8080 -e DEBUG=1 -e STORAGE=local -e STORAGE_LOCAL_ROOTDIR=/charts -v $(pwd)/charts:/charts chartmuseum/chartmuseum:latest
 ```
+
+Make sure to be logged in with docker.
 
 The helm repository should be now available at `http://localhost:8080`.
 
