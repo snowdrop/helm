@@ -1,0 +1,24 @@
+{{- if .Values.ingress.host }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app: {{ .Values.name }}
+    provider: {{ .Values.provider }}
+    app.kubernetes.io/runtime: rh-spring-boot
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  name: {{ .Values.name }}
+spec:
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: {{ .Values.name }}
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+{{- end }}
