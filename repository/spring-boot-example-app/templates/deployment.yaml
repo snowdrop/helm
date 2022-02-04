@@ -1,27 +1,36 @@
 ---
+{{- if .Values.docker }}
+apiVersion: apps/v1
+kind: Deployment
+{{- end }}
+{{- if empty .Values.docker }}
 apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
+{{- end }}
 metadata:
   labels:
     app: {{ .Values.name }}
     provider: {{ .Values.provider }}
-    app.openshift.io/runtime: rh-spring-boot
-  annotations:
-    app.kubernetes.io/vcs-uri: {{ .Values.s2i.source.repo }}
+    app.kubernetes.io/runtime: rh-spring-boot
   name: {{ .Values.name }}
 spec:
   replicas: 1
   selector:
+{{- if .Values.docker }}
+    matchLabels:
+      app: {{ .Values.name }}
+      provider: {{ .Values.provider }}
+{{- end }}
+{{- if empty .Values.docker }}
     app: {{ .Values.name }}
     provider: {{ .Values.provider }}
+{{- end }}
   template:
     metadata:
       labels:
         app: {{ .Values.name }}
         provider: {{ .Values.provider }}
-        app.openshift.io/runtime: rh-spring-boot
-      annotations:
-        app.kubernetes.io/vcs-uri: {{ .Values.s2i.source.repo }}
+        app.kubernetes.io/runtime: rh-spring-boot
     spec:
       containers:
         - env:
@@ -55,10 +64,14 @@ spec:
             timeoutSeconds: 10
         {{- end }}
           name: {{ .Values.name }}
+        {{- if .Values.docker }}
+          image: {{ .Values.docker.image }}
+        {{- end }}
           ports:
             - containerPort: 8080
               name: http
               protocol: TCP
+{{- if empty .Values.docker }}
   triggers:
     - imageChangeParams:
         automatic: true
@@ -68,3 +81,4 @@ spec:
           kind: ImageStreamTag
           name: "{{ .Values.name }}:{{ .Values.version }}"
       type: ImageChange
+{{- end }}

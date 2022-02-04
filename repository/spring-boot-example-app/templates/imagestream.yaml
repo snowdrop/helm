@@ -1,3 +1,4 @@
+{{- if empty .Values.docker }}
 ---
 apiVersion: image.openshift.io/v1
 kind: ImageStream
@@ -11,3 +12,4 @@ kind: ImageStream
 metadata:
   name: {{ .Values.name }}
 spec: {}
+{{- end }}

@@ -3,3 +3,4 @@
 
 # Helm
 /generated/
+charts/index-cache.yaml

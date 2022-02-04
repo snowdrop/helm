@@ -49,16 +49,26 @@ snowdrop	    https://snowdrop.github.io/helm
 ## Usage
 
 Requirements:
-- Connected/logged to a Openshift cluster
+- Connected/logged to a Kubernetes/OpenShift cluster
 - Have installed [the Helm command line](https://helm.sh/docs/intro/install/)
 
 ### spring-boot-example-app
 
-This chart deploys and exposes a Spring Boot application in Openshift.
-To install it, you need to execute the following command:
+This chart deploys and exposes a Spring Boot application on Kubernetes or OpenShift.
+
+- For Kubernetes:
+To use it on Kubernetes, the image of the Spring Boot application needs to be published on an images registry where you have access and be logged. In this example, we'll use the image `quay.io/user/my-app:latest`. To install it, you need to execute the following command:
 
 ```console
-$ helm install my-spring-boot-app snowdrop/spring-boot-example-app --set name=app --set s2i.source.repo=http://github.com/org/repo --set s2i.source.ref=main
+$ helm install my-spring-boot-app snowdrop/spring-boot-example-app --set name=app --set docker.image=quay.io/user/my-app:latest --set ingress.host=<your kubernetes domain>
+```
+
+**note**: if you want to expose your application on Kubernetes, you need to provide the `ingress.host` property.
+
+- For OpenShift, to install it, you need to execute the following command:
+
+```console
+$ helm install my-spring-boot-app snowdrop/spring-boot-example-app --set name=app --set s2i.source.repo=http://github.com/org/repo --set s2i.source.ref=main --set route.expose=true
 ```
 
 When you install the chart on OpenShift, a pod is created to build the Spring Boot application using as source the GIT repository cloned and the maven tool. The jar file generated will be copied to an image and pushed to a registry.
@@ -74,7 +84,7 @@ app-1-deploy    0/1     Completed   0          5m27s
 app-1-j5jk5     1/1     Running     0          5m25s
 ```
 
-**note**: Openshift may take a bit to download the images before triggering the S2i build. 
+**note**: OpenShift may take a bit to download the images before triggering the S2i build. 
 
 The pod with name `app-1-build` is automatically triggered by S2i to build the Spring Boot application. After the build is finished, the pod `app-1-deploy` will create the image that then will be used by the pod `app-1-j5jk5` to deploy the application.
 
@@ -146,16 +156,30 @@ $ helm dependency update
 
 After doing this, helm will download the `spring-boot-example-app` chart from the repository `http://snowdrop.github.io/helm` and will copy the Chart tallball `spring-boot-example-app-0.0.3.tgz` at `my-custom-chart/charts/`.
 
-As we explained in [the usage section](#spring-boot-example-app) of the `spring-boot-example-app` chart, we need to provide the GIT repository and branch, so Openshift can build and deploy the Spring Boot application using S2i. For doing this, we need to edit the `my-custom-chart/values.yaml` file and provide this configuration:
+As the build is taking place on the cluster using OpenShift - see [usage section](#spring-boot-example-app), then we have to configure the `s2i` fields defined within the `my-custom-chart/values.yaml` file:
 
 ```yaml
 firstApp: # match with the alias name
   name: my-first-app
   version: 0.0.1
+  route:
+    expose: true
   s2i:
     source:
       repo: http://github.com/org/repo
       ref: main
+```
+
+If you are using Kubernetes, then you would need to build and publish the docker image and next configure the `docker.image` field within the `my-custom-chart/values.yaml`:
+
+```yaml
+firstApp: # match with the alias name
+  name: my-first-app
+  version: 0.0.1
+  ingress:
+    host: <your k8s domain>
+  docker:
+    image: quay.io/user/my-app:latest
 ```
 
 Let's install our custom chart by executing the following command:
@@ -185,12 +209,14 @@ dependencies:
     repository: http://snowdrop.github.io/helm
 ```
 
-And, again, we need to edit the `my-custom-chart/values.yaml` file and provide the GIT configuration for the second application:
+And, again, we need to edit the `my-custom-chart/values.yaml` file and provide the correct configuration for the second application. For example, for OpenShift this file would look like as:
 
 ```yaml
 firstApp:
   name: my-first-app
   version: 0.0.1
+  route:
+    expose: true
   s2i:
     source:
       repo: http://github.com/org/repo
@@ -198,6 +224,8 @@ firstApp:
 secondApp:
   name: my-second-app
   version: 0.0.1
+  route:
+    expose: true
   s2i:
     source:
       repo: http://github.com/org/another-repo
@@ -210,7 +238,7 @@ Let's update our custom chart to deploy both Spring Boot applications by executi
 $ helm upgrade my-custom-chart .
 ```
 
-After the deployment is finished, we will see two Spring Boot applications up and running in Openshift.
+After the deployment is finished, we will see two Spring Boot applications up and running.
 
 ### spring-boot-example-rest-http
 
@@ -238,7 +266,7 @@ helm install crud snowdrop/spring-boot-example-crud
 
 ### spring-boot-example-configmap
 
-This chart deploys the example from [the repository](https://github.com/snowdrop/configmap-example). This example uses a ConfigMap to externalize configuration. ConfigMap is an object used by OpenShift to inject configuration data as simple key and value pairs into one or more Linux containers while keeping the containers independent of OpenShift.
+This chart deploys the example from [the repository](https://github.com/snowdrop/configmap-example). This example uses a ConfigMap to externalize configuration. 
 
 ```
 helm install configmap snowdrop/spring-boot-example-configmap

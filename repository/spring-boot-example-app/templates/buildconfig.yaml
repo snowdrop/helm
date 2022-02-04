@@ -1,12 +1,11 @@
+{{- if empty .Values.docker }}
 ---
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
   name: {{ .Values.name }}
   labels:
-    app.openshift.io/runtime: rh-spring-boot
-  annotations:
-    app.kubernetes.io/vcs-uri: {{ .Values.s2i.source.repo }}
+    app.kubernetes.io/runtime: rh-spring-boot
 spec:
   output:
     to:
@@ -33,3 +32,4 @@ spec:
     - type: ConfigChange
     - imageChange: {}
       type: ImageChange
+{{- end }}
