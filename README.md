@@ -145,7 +145,7 @@ description: A chart that deploys multiple Spring Boot applications
 dependencies:
   - alias: firstApp
     name: spring-boot-example-app
-    version: 0.0.3
+    version: 0.0.4
     repository: http://snowdrop.github.io/helm
 ```
 
@@ -177,7 +177,7 @@ firstApp: # match with the alias name
   name: my-first-app
   version: 0.0.1
   ingress:
-    host: <your k8s domain>
+    host: <your cluster domain>
   docker:
     image: quay.io/user/my-app:latest
 ```
@@ -244,57 +244,154 @@ After the deployment is finished, we will see two Spring Boot applications up an
 
 This chart deploys the example from [the repository](https://github.com/snowdrop/rest-http-example). This example shows how to map business operations to a remote procedure call endpoint over HTTP using a REST framework. This corresponds to Level 0 in the Richardson Maturity Model. Creating an HTTP endpoint using REST and its underlying principles to define your API lets you quickly prototype and design the API flexibly.
 
+- Using Ingress Host:
+
 ```
-helm install rest-http snowdrop/spring-boot-example-rest-http
+helm install rest-http snowdrop/spring-boot-example-rest-http --set app.ingress.host=<your cluster domain>
+```
+
+- Using Routes (only on OpenShift):
+
+```
+helm install rest-http snowdrop/spring-boot-example-rest-http --set app.route.expose=true
 ```
 
 ### spring-boot-example-cache
 
 This chart deploys the example from [the repository](https://github.com/snowdrop/cache-example). This example demonstrates how to use a cache to increase the response time of applications.
 
+- Using Ingress Host:
+
 ```
-helm install cache snowdrop/spring-boot-example-cache
+helm install cache snowdrop/spring-boot-example-cache --set greeting-service.ingress.host=<your cluster domain>
+```
+
+- Using Routes (only on OpenShift):
+
+```
+helm install cache snowdrop/spring-boot-example-cache --set greeting-service.route.expose=true
 ```
 
 ### spring-boot-example-crud
 
 This chart deploys the example from [the repository](https://github.com/snowdrop/crud-example). This example expands on the REST API Level 0 application to provide a basic example of performing create, read, update and delete (CRUD) operations on a PostgreSQL database using a simple HTTP API. CRUD operations are the four basic functions of persistent storage, widely used when developing an HTTP API dealing with a database.
 
+- Using Ingress Host:
+
 ```
-helm install crud snowdrop/spring-boot-example-crud
+helm install crud snowdrop/spring-boot-example-crud --set app.ingress.host=<your cluster domain>
+```
+
+- Using Routes (only on OpenShift):
+
+```
+helm install crud snowdrop/spring-boot-example-crud --set app.route.expose=true
 ```
 
 ### spring-boot-example-configmap
 
 This chart deploys the example from [the repository](https://github.com/snowdrop/configmap-example). This example uses a ConfigMap to externalize configuration. 
 
+- Using Ingress Host:
+
 ```
-helm install configmap snowdrop/spring-boot-example-configmap
+helm install configmap snowdrop/spring-boot-example-configmap --set app.ingress.host=<your cluster domain>
+```
+
+- Using Routes (only on OpenShift):
+
+```
+helm install configmap snowdrop/spring-boot-example-configmap --set app.route.expose=true
 ```
 
 ### spring-boot-example-health-check
 
 This chart deploys the example from [the repository](https://github.com/snowdrop/health-check-example). This example demonstrates the health check pattern through the use of probing. Probing is used to report the liveness and readiness of an application.
 
+- Using Ingress Host:
+
 ```
-helm install health-check snowdrop/spring-boot-example-health-check
+helm install health-check snowdrop/spring-boot-example-health-check --set app.ingress.host=<your cluster domain>
+```
+
+- Using Routes (only on OpenShift):
+
+```
+helm install health-check snowdrop/spring-boot-example-health-check --set app.route.expose=true
 ```
 
 ### spring-boot-example-circuit-breaker
 
 This chart deploys the example from [the repository](https://github.com/snowdrop/circuit-breaker-example). This example demonstrates a generic pattern for reporting the failure of a service and then limiting access to the failed service until it becomes available to handle requests. This helps prevent cascading failure in other services that depend on the failed services for functionality.
 
+- Using Ingress Host:
+
+Build and push a new image in your container registry:
 ```
-helm install circuit-breaker snowdrop/spring-boot-example-circuit-breaker
+CONTAINER_REGISTRY=<your container registry: for example "quay.io/user">
+## Name service:
+NAME_IMAGE=circuit-breaker-name:latest
+docker build ./name-service -t $NAME_IMAGE
+docker tag $NAME_IMAGE $CONTAINER_REGISTRY/$NAME_IMAGE
+docker push $CONTAINER_REGISTRY/$NAME_IMAGE
+
+## Greeting service:
+GREETING_IMAGE=circuit-breaker-greeting:latest
+docker build ./greeting-service -t $GREETING_IMAGE
+docker tag $GREETING_IMAGE $CONTAINER_REGISTRY/$GREETING_IMAGE
+docker push $CONTAINER_REGISTRY/$GREETING_IMAGE
 ```
+
+**note**: Make sure both images `circuit-breaker-name:latest` and `circuit-breaker-greeting:latest` are public
+
+```
+helm install circuit-breaker snowdrop/spring-boot-example-circuit-breaker --set name-service.docker.image=$CONTAINER_REGISTRY/$NAME_IMAGE --set greeting-service.docker.image=$CONTAINER_REGISTRY/$GREETING_IMAGE --set name-service.ingress.host=<your cluster domain> --set greeting-service.ingress.host=<your cluster domain>
+```
+
+- Using Routes (only on OpenShift):
+
+```
+helm install circuit-breaker snowdrop/spring-boot-example-circuit-breaker --set name-service.route.expose=true --set name-service.s2i.source.repo=https://github.com/snowdrop/circuit-breaker-example --set name-service.s2i.source.ref=<branch-to-use> --set greeting-service.route.expose=true --set greeting-service.s2i.source.repo=https://github.com/snowdrop/circuit-breaker-example --set greeting-service.s2i.source.ref=<branch-to-use>
+```
+
+**note**: Replace `<branch-to-use>` with one branch from `https://github.com/snowdrop/circuit-breaker-example/branches/all`.
 
 ### spring-boot-example-messaging-queue
 
 This chart deploys the example from [the repository](https://github.com/snowdrop/messaging-work-queue-example). This example demonstrates how to dispatch tasks to a scalable set of worker processes using a message queue. It uses the AMQP 1.0 message protocol to send and receive messages.
 
+- Using Ingress Host:
+
+Build and push a new image in your container registry:
 ```
-helm install messaging snowdrop/spring-boot-example-messaging-queue
+CONTAINER_REGISTRY=<your container registry: for example "quay.io/user">
+## Worker service:
+WORKER_IMAGE=messaging-worker:latest
+docker build ./worker -t $CUTE_NAME_IMAGE
+docker tag $WORKER_IMAGE $CONTAINER_REGISTRY/$WORKER_IMAGE
+docker push $CONTAINER_REGISTRY/$WORKER_IMAGE
+
+## Frontend service:
+FRONTEND_IMAGE=messaging-frontend:latest
+docker build ./frontend -t $FRONTEND_IMAGE
+docker tag $FRONTEND_IMAGE $CONTAINER_REGISTRY/$FRONTEND_IMAGE
+docker push $CONTAINER_REGISTRY/$FRONTEND_IMAGE
 ```
+
+**note**: Make sure both images `messaging-worker:latest` and `messaging-frontend:latest` are public
+
+```
+helm install messaging snowdrop/spring-boot-example-messaging-queue --set worker.docker.image=$CONTAINER_REGISTRY/$CUTE_NAME_IMAGE --set worker.ingress.host=<your cluster domain> --set frontend.docker.image=$CONTAINER_REGISTRY/$GREETING_IMAGE --set frontend.ingress.host=<your cluster domain>
+```
+
+- Using Routes (only on OpenShift):
+
+```
+helm install messaging snowdrop/spring-boot-example-messaging-queue --set frontend.route.expose=true --set frontend.s2i.source.repo=https://github.com/snowdrop/messaging-work-queue-example --set frontend.s2i.source.ref=<branch-to-use> --set worker.route.expose=true --set worker.s2i.source.repo=https://github.com/snowdrop/messaging-work-queue-example --set worker.s2i.source.ref=<branch-to-use>
+```
+
+**note**: Replace `<branch-to-use>` with one branch from `https://github.com/snowdrop/messaging-work-queue-example/branches/all`.
+
 ## Development/Release a new Chart
 
 To add a new chart to the repository, follow these steps:
