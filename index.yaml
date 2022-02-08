@@ -2,15 +2,15 @@ apiVersion: v1
 entries:
   spring-boot-example-app:
   - apiVersion: v1
-    created: "2022-02-04T15:18:14.624296151+01:00"
+    created: "2022-02-08T19:28:29.049666264+01:00"
     description: Spring Boot Example application
-    digest: cca528009e0637ad471f6b66f637a0a7181a19ff8e7742a02357e3af0e6b95db
+    digest: 4dcf37c2d2e41d7747ae973ff3324842e1b01b080bfbb8f138933f94a27e8384
     name: spring-boot-example-app
     urls:
     - https://snowdrop.github.io/helm/charts/spring-boot-example-app-0.0.4.tgz
     version: 0.0.4
   - apiVersion: v1
-    created: "2022-02-04T15:18:14.624036847+01:00"
+    created: "2022-02-08T19:28:29.049419062+01:00"
     description: Spring Boot Example application
     digest: a1beca6614ba1c6cdde1be593092a48595f68b5a4f1b446259679882de1b0a69
     name: spring-boot-example-app
@@ -18,7 +18,7 @@ entries:
     - https://snowdrop.github.io/helm/charts/spring-boot-example-app-0.0.3.tgz
     version: 0.0.3
   - apiVersion: v1
-    created: "2022-02-04T15:18:14.623821955+01:00"
+    created: "2022-02-08T19:28:29.04919034+01:00"
     description: Spring Boot Example application
     digest: f01e1df9eb305fbc1c0d1c01ce08879f54070909ec57b99333398e3214675c38
     name: spring-boot-example-app
@@ -26,7 +26,7 @@ entries:
     - https://snowdrop.github.io/helm/charts/spring-boot-example-app-0.0.2.tgz
     version: 0.0.2
   - apiVersion: v1
-    created: "2022-02-04T15:18:14.62362443+01:00"
+    created: "2022-02-08T19:28:29.048995116+01:00"
     description: Spring Boot Example application
     digest: ce84140ae50b819d9fad9dea6271f91902346d13608f966afe8134aee95160aa
     name: spring-boot-example-app
@@ -35,18 +35,18 @@ entries:
     version: 0.0.1
   spring-boot-example-cache:
   - apiVersion: v2
-    created: "2022-02-04T15:18:14.624852274+01:00"
+    created: "2022-02-08T19:28:29.050252634+01:00"
     dependencies:
     - alias: cute-name-service
       name: spring-boot-example-app
       repository: http://snowdrop.github.io/helm
-      version: 0.0.3
+      version: 0.0.4
     - alias: greeting-service
       name: spring-boot-example-app
       repository: http://snowdrop.github.io/helm
-      version: 0.0.3
+      version: 0.0.4
     description: A Helm chart to build and deploy Spring Boot applications with Cache
-    digest: d3a8a4e11ff5b47af9a0d49e9860c49016feadb01f6d715f184d4bff789b841c
+    digest: 748745aa37f82f050e341b12e47459a081a9023aedbc897649f08f9f3a167850
     icon: https://avatars.githubusercontent.com/u/558276?s=400&u=19efc68c74844b2e092698a8a7a752921edcdc19&v=4
     keywords:
     - runtimes
@@ -78,18 +78,18 @@ entries:
     version: 2.5.0
   spring-boot-example-circuit-breaker:
   - apiVersion: v2
-    created: "2022-02-04T15:18:14.625338047+01:00"
+    created: "2022-02-08T19:28:29.050765841+01:00"
     dependencies:
     - alias: name-service
       name: spring-boot-example-app
       repository: http://snowdrop.github.io/helm
-      version: 0.0.3
+      version: 0.0.4
     - alias: greeting-service
       name: spring-boot-example-app
       repository: http://snowdrop.github.io/helm
-      version: 0.0.3
+      version: 0.0.4
     description: A Helm chart to build and deploy Spring Boot applications with Cache
-    digest: b8d11c1b8d36f57d9812ef4809eaa2542474d4ede9ecf836ed1a4bc89976ab1d
+    digest: 0cf38aac939771549b8b0ab496bbcae3d3d0b1b4670f97712052f63cc5ab6a78
     icon: https://avatars.githubusercontent.com/u/558276?s=400&u=19efc68c74844b2e092698a8a7a752921edcdc19&v=4
     keywords:
     - runtimes
@@ -100,13 +100,14 @@ entries:
     version: 2.5.8
   spring-boot-example-configmap:
   - apiVersion: v2
-    created: "2022-02-04T15:18:14.625736495+01:00"
+    created: "2022-02-08T19:28:29.0511886+01:00"
     dependencies:
-    - name: spring-boot-example-app
+    - alias: app
+      name: spring-boot-example-app
       repository: http://snowdrop.github.io/helm
-      version: 0.0.3
+      version: 0.0.4
     description: A Helm chart to build and deploy Spring Boot application using ConfigMap
-    digest: eed8e9e9ebe74cb2ddac870e8367a2f5afad6254b2599ae9c7100cdb07050d78
+    digest: 3f05d1a12ce98a05fd173217bae020fd24c684fb3adf9c5276b7ac77db933892
     icon: https://avatars.githubusercontent.com/u/558276?s=400&u=19efc68c74844b2e092698a8a7a752921edcdc19&v=4
     keywords:
     - runtimes
@@ -117,13 +118,14 @@ entries:
     version: 2.5.8
   spring-boot-example-crud:
   - apiVersion: v2
-    created: "2022-02-04T15:18:14.626210077+01:00"
+    created: "2022-02-08T19:28:29.051666968+01:00"
     dependencies:
-    - name: spring-boot-example-app
+    - alias: app
+      name: spring-boot-example-app
       repository: http://snowdrop.github.io/helm
-      version: 0.0.3
+      version: 0.0.4
     description: A Helm chart to build and deploy Spring Boot application with CRUD
-    digest: 0b623d0af5d1c583a86a2189409804adec7ce4cc42500f6edd197fb90809bd2e
+    digest: 80856cf367c94c869d08e2ae888e113ea01b7fecc56d99bd49acac91005fc5d8
     icon: https://avatars.githubusercontent.com/u/558276?s=400&u=19efc68c74844b2e092698a8a7a752921edcdc19&v=4
     keywords:
     - runtimes
@@ -134,14 +136,15 @@ entries:
     version: 2.5.8
   spring-boot-example-health-check:
   - apiVersion: v2
-    created: "2022-02-04T15:18:14.627157283+01:00"
+    created: "2022-02-08T19:28:29.05205756+01:00"
     dependencies:
-    - name: spring-boot-example-app
+    - alias: app
+      name: spring-boot-example-app
       repository: http://snowdrop.github.io/helm
-      version: 0.0.3
+      version: 0.0.4
     description: A Helm chart to build and deploy Spring Boot application with Health
       Checks
-    digest: 04a9801b3bcdad4a319a0923ad0ae530190480b6568528039a02039a7aeb312d
+    digest: b6f1e7ae01a79e68c33a134aee73bf284c08b2a3b28243f7a4a339c59a16b7a2
     icon: https://avatars.githubusercontent.com/u/558276?s=400&u=19efc68c74844b2e092698a8a7a752921edcdc19&v=4
     keywords:
     - runtimes
@@ -152,18 +155,18 @@ entries:
     version: 2.5.8
   spring-boot-example-messaging-queue:
   - apiVersion: v2
-    created: "2022-02-04T15:18:14.627724363+01:00"
+    created: "2022-02-08T19:28:29.052628936+01:00"
     dependencies:
     - alias: frontend
       name: spring-boot-example-app
       repository: http://snowdrop.github.io/helm
-      version: 0.0.3
+      version: 0.0.4
     - alias: worker
       name: spring-boot-example-app
       repository: http://snowdrop.github.io/helm
-      version: 0.0.3
+      version: 0.0.4
     description: A Helm chart to build and deploy Spring Boot applications with Cache
-    digest: 3bfbf826c3f5325bc4a5a1021c83ab4021de363739b2d3ae01107424f76e07de
+    digest: 5c266b9b96ccb3fd2582a055cca3d6d32e872cceed431fd2bed5edba69bb5565
     icon: https://avatars.githubusercontent.com/u/558276?s=400&u=19efc68c74844b2e092698a8a7a752921edcdc19&v=4
     keywords:
     - runtimes
@@ -174,14 +177,15 @@ entries:
     version: 2.5.8
   spring-boot-example-rest-http:
   - apiVersion: v2
-    created: "2022-02-04T15:18:14.628097438+01:00"
+    created: "2022-02-08T19:28:29.053015352+01:00"
     dependencies:
-    - name: spring-boot-example-app
+    - alias: app
+      name: spring-boot-example-app
       repository: http://snowdrop.github.io/helm
-      version: 0.0.3
+      version: 0.0.4
     description: A Helm chart to build and deploy Spring Boot application with REST
       endpoints
-    digest: f1dfa8867eb250e19285ba05a919cfb27c1541708b3cdfba1930b6de6a946e34
+    digest: 6c01376b2abb815d63c43844c1c52616078494f4aeee77c6bb6fee8baefb71aa
     icon: https://avatars.githubusercontent.com/u/558276?s=400&u=19efc68c74844b2e092698a8a7a752921edcdc19&v=4
     keywords:
     - runtimes
@@ -190,4 +194,4 @@ entries:
     urls:
     - https://snowdrop.github.io/helm/charts/spring-boot-example-rest-http-2.5.8.tgz
     version: 2.5.8
-generated: "2022-02-04T15:18:14.623249566+01:00"
+generated: "2022-02-08T19:28:29.048631887+01:00"

@@ -1,9 +1,8 @@
 ---
-{{- if .Values.docker }}
+{{- if empty .Values.s2i.source.repo }}
 apiVersion: apps/v1
 kind: Deployment
-{{- end }}
-{{- if empty .Values.docker }}
+{{ else }}
 apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 {{- end }}
@@ -16,12 +15,11 @@ metadata:
 spec:
   replicas: 1
   selector:
-{{- if .Values.docker }}
+{{- if empty .Values.s2i.source.repo }}
     matchLabels:
       app: {{ .Values.name }}
       provider: {{ .Values.provider }}
-{{- end }}
-{{- if empty .Values.docker }}
+{{ else }}
     app: {{ .Values.name }}
     provider: {{ .Values.provider }}
 {{- end }}
@@ -71,7 +69,7 @@ spec:
             - containerPort: 8080
               name: http
               protocol: TCP
-{{- if empty .Values.docker }}
+{{- if .Values.s2i.source.repo }}
   triggers:
     - imageChangeParams:
         automatic: true
